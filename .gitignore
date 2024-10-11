@@ -1,6 +1,12 @@
 # No API key for you :)!
 /UnusedCommands/chatgpt.js
 
+# Apple files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
 # Logs
 logs
 *.log
