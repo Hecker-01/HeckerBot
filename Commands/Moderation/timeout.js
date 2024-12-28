@@ -36,7 +36,6 @@ module.exports = {
       option
         .setName("reason")
         .setDescription("Provide a reason for the timeout")
-        .setMaxLength(512)
         .setRequired(true)
     ),
   /**

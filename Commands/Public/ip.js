@@ -5,6 +5,7 @@ const {
   } = require("discord.js");
   
   module.exports = {
+    developer: true,
     data: new SlashCommandBuilder()
       .setName("ip")
       .setDescription("Get the current server ip.")

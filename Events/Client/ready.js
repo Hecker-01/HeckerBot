@@ -7,7 +7,7 @@ module.exports = {
    * @param {Client} client
    */
   execute(client) {
-    const activityType = ActivityType.Playing;
+    let activityType
     switch (client.config.activityType) {
       case "PLAYING":
         activityType = ActivityType.Playing;
@@ -20,6 +20,9 @@ module.exports = {
         break;
       case "STREAMING":
         activityType = ActivityType.Streaming;
+        break;
+      default:
+        activityType = ActivityType.Playing;
         break;
     }
     client.user.setPresence({
