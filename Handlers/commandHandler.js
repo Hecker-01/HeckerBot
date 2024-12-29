@@ -1,26 +1,36 @@
-async function loadCommands(client) {
-  const { loadFiles } = require("../Functions/fileLoader");
-  const ascii = require("ascii-table");
-  const table = new ascii().setHeading("Commands", "Status");
+const { loadFiles } = require("../Functions/fileLoader");
 
-  await client.commands.clear();
+async function loadCommands(client) {
+  console.time("Commands Loaded");
+
+  client.commands = new Map();
+  const commands = new Array();
 
   let commandsArray = [];
 
-  const Files = await loadFiles("Commands");
+  const files = await loadFiles("Commands");
 
-  Files.forEach((file) => {
-    const command = require(file);
-    client.commands.set(command.data.name, command);
+  for (const file of files) {
+    try {
+      const command = require(file);
+      client.commands.set(command.data.name, command);
 
-    commandsArray.push(command.data.toJSON());
+      commandsArray.push(command.data.toJSON());
 
-    table.addRow(command.data.name, "✅");
-  });
+      commands.push({ Command: command.data.name, Status: "✅" });
+    } catch (error) {
+      commands.push({
+        Command: file.split("/").pop().slice(0, -3),
+        Status: "❌",
+      });
+    }
+  }
 
   client.application.commands.set(commandsArray);
 
-  return console.log(table.toString(), "\nCommands Loaded.");
+  console.table(commands, ["Command", "Status"]);
+  console.info("\n\x1b[36m%s\x1b[0m", "Loaded Commands.");
+  console.timeEnd("Commands Loaded");
 }
 
 module.exports = { loadCommands };
